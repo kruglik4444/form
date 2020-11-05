@@ -1,0 +1,35 @@
+<div class="header">
+  Teleform project
+</div>
+
+<div class="container">
+  <label class="label" [ngStyle]="{'color' : user.firstName ? '#1976d2' : 'red'}">Имя</label>
+  <input type="text" [ngStyle]="{'border-color' : user.firstName ? '#1976d2' : 'red'}" [(ngModel)] = "user.firstName">
+  <label class="label" [ngStyle]="{'color' : user.secondName ? '#1976d2' : 'red'}">Фамилия</label>
+  <input type="text" [ngStyle]="{'border-color' : user.secondName ? '#1976d2' : 'red'}" [(ngModel)] = "user.secondName">
+  <button *ngIf = "!showContactPart" [disabled] = "!(user.firstName && user.secondName)" class="myButton" (click) = "showContacts()">Далее</button>
+</div>
+
+<div *ngIf = "showContactPart" class="container">
+  <label class="label" [ngStyle]="{'color' : user.phone ? '#1976d2' : 'red'}">Телефон</label>
+  <input type="text" [ngStyle]="{'border-color' : user.phone ? '#1976d2' : 'red'}" [(ngModel)] = "user.phone">
+  <label class="label" [ngStyle]="{'color' : user.email ? '#1976d2' : 'red'}">E-mail</label>
+  <input type="text" [ngStyle]="{'border-color' : user.email ? '#1976d2' : 'red'}" [(ngModel)] = "user.email">
+  <label class="label" [ngStyle]="{'color' : user.address ? '#1976d2' : 'red'}">Адрес</label>
+  <input type="text" (click) = "openMapModal()"  [ngStyle]="{'border-color' : user.address ? '#1976d2' : 'red'}" placeholder="{{user.address}}">
+  <div class="modal" [ngStyle] = "{'display': showMap ? 'block' : 'none' }">
+    <div class="modal-content">
+      <div class="map">
+        <ya-map (yaclick) = "findAddress($event)" [center]="[55.751952, 37.600739]" [zoom]="12"></ya-map>
+      </div>
+    </div>
+  </div>
+  <mat-form-field style="width: 50%;" appearance="fill">
+    <mat-label >Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" (dateChange)="updateDOB($event)">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <br>
+  <button class="myButton" (click) = "showInfo()" [disabled] = "(user.address && user.phone && user.email && user.date)">Далее</button>
+</div>
